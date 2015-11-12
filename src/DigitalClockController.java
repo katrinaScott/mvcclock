@@ -21,8 +21,10 @@ class DigitalClockController extends JFrame {
 	JButton monthButton;
 	JButton yearButton;
 	
-	JToggleButton modernToggle;
-	JToggleButton dialToggle;
+	//JToggleButton modernToggle;
+	//JToggleButton dialToggle;
+	JButton digitalButton;
+	JButton dialButton;
 	
 	JComboBox yearCombo;
 	JComboBox daysOfWeekCombo;
@@ -44,8 +46,10 @@ class DigitalClockController extends JFrame {
 		dayOfWeekButton = new JButton("Day of week");
 		monthButton = new JButton("Month");
 		yearButton = new JButton("Year");
-		modernToggle = new JToggleButton("MODERN VIEW");
-		dialToggle = new JToggleButton("DIAL VIEW");
+		//modernToggle = new JToggleButton("MODERN VIEW");
+		//dialToggle = new JToggleButton("DIAL VIEW");
+		digitalButton = new JButton("DIGITAL VIEW");
+		dialButton = new JButton("DIAL VIEW");
 		yearCombo = new JComboBox(model.years);
 		daysOfWeekCombo = new JComboBox(model.generateDaysOfWeek());
 		monthsCombo = new JComboBox(model.generateMonths());
@@ -61,10 +65,12 @@ class DigitalClockController extends JFrame {
 		dayOfWeekButton.addActionListener(new MyButtonListener());
 		monthButton.addActionListener(new MyButtonListener());
 		yearButton.addActionListener(new MyButtonListener());
-		modernToggle.setSelected(true);
-		modernToggle.addItemListener(new MyItemListener("modern"));
-		dialToggle.setSelected(true);
-		dialToggle.addItemListener(new MyItemListener("dial"));
+		//modernToggle.setSelected(true);
+		//modernToggle.addItemListener(new MyItemListener("modern"));
+		//dialToggle.setSelected(true);
+		//dialToggle.addItemListener(new MyItemListener("dial"));
+		digitalButton.addActionListener(new MyButtonListener());
+		dialButton.addActionListener(new MyButtonListener());
 		undo.addActionListener(new UndoListener());
 		redo.addActionListener(new RedoListener());
 		
@@ -75,8 +81,10 @@ class DigitalClockController extends JFrame {
 		p.add(dayOfWeekButton);
 		p.add(monthButton);
 		p.add(yearButton);
-		p.add(dialToggle);
-		p.add(modernToggle);
+		//p.add(dialToggle);
+		//p.add(modernToggle);
+		p.add(digitalButton);
+		p.add(dialButton);
 //		p.add(yearCombo);
 //		p.add(daysOfWeekCombo);
 //		p.add(monthsCombo);
@@ -118,6 +126,20 @@ class DigitalClockController extends JFrame {
 				
 				command = new DTUpdateYearCmd(model);
 				commandStore.Execute(command);
+				
+			} else if (e.getActionCommand().equals("DIGITAL VIEW")) {
+				
+				DigitalClockView digital = new DigitalClockDigitalView();
+				digital.addObservable(model);
+				clockViews.add(digital);
+				// add shit
+				
+			} else if (e.getActionCommand().equals("DIAL VIEW")) {
+				
+				DigitalClockView dial = new DigitalClock3DDialsView();
+				dial.addObservable(model);
+				clockViews.add(dial);
+				// add shit
 				
 			} // end of if-else if-else
 			
