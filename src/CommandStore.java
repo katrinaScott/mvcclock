@@ -50,9 +50,11 @@ class CommandStore {
 	public void Undo() {
 		
 		if (!undos.empty()) {
+			
 			DigitalClockCmd undid = undos.pop();
 			undid.UnExecute();
 			redos.push(undid);
+			
 		} // end if
 		
 	} // end of method Undo
@@ -60,9 +62,11 @@ class CommandStore {
 	public void Redo() {
 		
 		if (!redos.empty()) {
+			
 			DigitalClockCmd redid = redos.pop();
 			redid.Execute();
 			undos.push(redid);
+			
 		} // end if
 		
 	} // end of method Redo

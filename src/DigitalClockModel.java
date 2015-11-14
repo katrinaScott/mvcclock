@@ -28,13 +28,13 @@ class DigitalClockModel implements Runnable {
     		" ", "January", "February", "March", "April", "May", "June", "July", "August", 
     		"September", "October", "November", "December"
     };
-    public String years[] = new String[40];
+    //public String years[] = new String[40];
     
 	public DigitalClockModel() {
 
 		Calendar local = Calendar.getInstance();
 		
-		_second = local.get(Calendar.YEAR);
+		_second = local.get(Calendar.SECOND);
 		_minute = local.get(Calendar.MINUTE);
 		_hour = local.get(Calendar.HOUR);
 		_dayOfWeek = local.get(Calendar.DAY_OF_WEEK);
@@ -325,7 +325,7 @@ class DigitalClockModel implements Runnable {
         //TODO format the zeroes in
         String s  = _hour + " : " + _minute + " : " + _second + " \n" +
         _daysOfWeek[_dayOfWeek-1] + ", " + _months[_month+1] + " " + _day + ", " + _year;
-        
+   
         return s;
         
     } // end of method toString

@@ -19,3 +19,7 @@
 /DTUpdateMinuteCmd.class
 /DTUpdateSecondCmd.class
 /DigitalClockController$CmdListener.class
+/DigitalClockSettingsUI$ButtonListener.class
+/DigitalClockSettingsUI$TextListener.class
+/DTUpdateDayCmd.class
+/ButtonListener.class

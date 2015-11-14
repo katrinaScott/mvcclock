@@ -19,6 +19,7 @@ import java.awt.FlowLayout;
 class DigitalClockController {
 	
 	CommandStore commandStore = new CommandStore();
+	DigitalClockCmd command;
 	DigitalClockModel model;
 	
 	public DigitalClockController(DigitalClockModel model) {
@@ -27,79 +28,94 @@ class DigitalClockController {
 		
 	} // end of constructor
 	
-	private class MyButtonListener implements ActionListener {
+	public void newDigitalView() {
 		
-		public void actionPerformed(ActionEvent e) {
-			
-			DigitalClockCmd command;
-			
-			if (e.getActionCommand().equals("Second")) {
-				
-				model.incrementSecond();
-				
-			} else if (e.getActionCommand().equals("Minute")) {
-				
-				model.incrementMin();
-				
-			} else if (e.getActionCommand().equals("Hour")) {
-				
-				model.incrementHour();
-				
-			} else if (e.getActionCommand().equals("Day") || e.getActionCommand().equals("Day of Week")) {
-				
-				command = new DTUpdateDayOfWeekCmd(model);
-				commandStore.Execute(command);
-				
-			} else if (e.getActionCommand().equals("Month")) {
-				
-				command = new DTUpdateMonthCmd(model);
-				commandStore.Execute(command);
-				
-			} else if (e.getActionCommand().equals("Year")) {
-				
-				command = new DTUpdateYearCmd(model);
-				commandStore.Execute(command);
-				
-			} else if (e.getActionCommand().equals("Add Digital View")) {
-				
-				DigitalClockView digital = new DigitalClockDigitalView();
-				model.addObserver(digital);
-				digital.buildDigitalClockView();
-				
-			} else if (e.getActionCommand().equals("Add Dial View")) {
-				
-				DigitalClockView dial = new DigitalClock3DialsView();
-				
-				model.addObserver(dial);
-
-				dial.buildDigitalClock3DialsView();
-				
-			} // end of if-else if-else
-			
-			model.notifyObservers();
-			
-		} // end of method actionPerformed
+		DigitalClockView digital = new DigitalClockDigitalView();
+		model.addObserver(digital);
+		digital.buildDigitalClockView();
 		
-	} // end of class MyButtonListener
+		model.notifyObservers();
+		
+	} // end of method newDigitalView
 	
-	private class CmdListener implements ActionListener {
+	public void newDialView(){
 		
-		public void actionPerformed(ActionEvent e) {
-			
-			if (e.getActionCommand().equals("Undo Command")) {
-				
-				commandStore.Undo();
-				
-			} else if (e.getActionCommand().equals("Redo Command")) {
-				
-				commandStore.Redo();
-				
-			} // end of if-else if
-			
-			model.notifyObservers();
-			
-		} // end of method actionPerformed
+		DigitalClockView dial = new DigitalClock3DialsView();
+		model.addObserver(dial);
+		dial.buildDigitalClock3DialsView();
 		
-	} // end of class CmdListener
+		model.notifyObservers();
+		
+	} // end of method newDialView
+	
+	public void updateSecond(String second) {
+		
+		command = new DTUpdateSecondCmd(model, second);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateSecond
+	
+	public void updateMinute(String minutes) {
+		
+		command = new DTUpdateMinuteCmd(model, minutes);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateMinute
+	
+	public void updateHour(String hour) {
+		
+		command = new DTUpdateHourCmd(model, hour);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateHour
+	
+	public void updateDay(String day) {
+		
+		command = new DTUpdateDayCmd(model, day);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateDay
+	
+	public void updateMonth(String month) {
+		
+		command = new DTUpdateMonthCmd(model, month);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateMonth
+	
+	public void updateYear(String year) {
+		
+		command = new DTUpdateYearCmd(model, year);
+		commandStore.Execute(command);
+		
+		model.notifyObservers();
+		
+	} // end of method updateYear
+	
+	public void undo() {
+		
+		commandStore.Undo();
+		
+		model.notifyObservers();
+		
+	} // end of method undo
+	
+	public void redo() {
+		
+		commandStore.Redo();
+		
+		model.notifyObservers();
+		
+	} // end of method redo
 	
 } // end of class DigitalClockController

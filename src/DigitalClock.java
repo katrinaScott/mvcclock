@@ -40,11 +40,11 @@ public class DigitalClock extends JFrame {
 	        f.setSize(new Dimension(400,300));
 	        f.show();*/
 		
-		DigitalClockView dialView = new DigitalClock3DialsView();
-		DigitalClockView digitalView = new DigitalClockDigitalView();
-		
 		model = new DigitalClockModel();
 		//model = new DigitalClockModel(digitalView);
+		
+		DigitalClockView dialView = new DigitalClock3DialsView();
+		DigitalClockView digitalView = new DigitalClockDigitalView();
 		
 		model.addObserver(dialView);
 		model.addObserver(digitalView);

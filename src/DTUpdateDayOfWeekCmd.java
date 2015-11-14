@@ -18,13 +18,13 @@ class DTUpdateDayOfWeekCmd implements DigitalClockCmd {
 	
 	public void Execute() {
 		
-		model.incrementDay();
+		model.incrementDayOfWeek();
 		
 	} // end of method Execute
 	
 	public void UnExecute() {
 		
-		model.decrementDay();
+		model.decrementDayOfWeek();
 		
 	} // end of method UnExecute
 	
