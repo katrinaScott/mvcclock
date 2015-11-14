@@ -1,5 +1,11 @@
-import java.awt.Graphics;
+package src;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Point;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /** 
@@ -33,5 +39,32 @@ public abstract class DigitalClockView extends JPanel{
 		this.model = model;
 		
 	} // end of method addObservable
+	
+	public void buildDigitalClockView() {
+		
+		JFrame digitalFrame = new JFrame("Digital");
+		//digitalFrame.addWindowListener(windowAdapter);
+		digitalFrame.add(this);
+		this.add(new JLabel("placeholder"));
+		// add model's string to it
+		
+		digitalFrame.pack();
+		digitalFrame.setSize(new Dimension(400, 300));
+		digitalFrame.setLocation(new Point(20, 100));
+		digitalFrame.setVisible(true);
+		
+	} // end of method buildDigitalClockView
+	
+	public void buildDigitalClock3DialsView() {
+		
+		JFrame dialFrame = new JFrame("3 Dial");
+		//dialFrame.addWindowListener(windowAdapter);
+		dialFrame.getContentPane().add("Center", this);
+		dialFrame.pack();
+		dialFrame.setSize(new Dimension(400, 300));
+		dialFrame.setLocationRelativeTo(null);
+
+		dialFrame.setVisible(true);
+	} // end of method buildDigitalClock3DialsView
 
 } // end of class DigitalClockView

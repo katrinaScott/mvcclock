@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -118,7 +120,7 @@ class DigitalClock3DialsView extends DigitalClockView {
 		g2.dispose();
 		g.drawImage(bimg, 0, 0, this);*/
 		
-		step(d.width, d.height);
+		step();
 		
 		Graphics2D g2 = createGraphics2D(d.width, d.height);
 		drawClockArms(d.width, d.height, g2);
@@ -182,19 +184,11 @@ class DigitalClock3DialsView extends DigitalClockView {
 	 */
 	
 	// POSSIBLY change
-    public void step(int w, int h) {
+    public void step() {
     	
-        for (int i = 0; i < lines.length; i++) {
-        	
-            rAmt[i] += speed[i];
-            
-            if (rAmt[i] == 360) {
-            	
-                rAmt[i] = 0;
-                
-            } // end of if
-            
-        } // end of for
+    	rAmt[0] = model.getSecond() * 6 - 90;
+        rAmt[1] = model.getMinute() * 6 - 90;
+        rAmt[2] = model.getHour() * 30 - 90;
         
     } // end of method step
 	

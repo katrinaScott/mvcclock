@@ -1,3 +1,5 @@
+package src;
+
 /**
  * Interface for commend
  */

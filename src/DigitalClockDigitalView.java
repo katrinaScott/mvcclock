@@ -1,3 +1,5 @@
+package src;
+
 import javax.swing.JLabel;
 
 public class DigitalClockDigitalView  extends DigitalClockView {

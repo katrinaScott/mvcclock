@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -10,87 +12,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.SwingUtilities;
+import java.awt.GridLayout;
+import javax.swing.JLabel;
+import java.awt.FlowLayout;
 
-class DigitalClockController extends JFrame {
-	
-	JButton secondButton;
-	JButton minuteButton;
-	JButton hourButton; 
-	JButton dayButton;
-	JButton dayOfWeekButton;
-	JButton monthButton;
-	JButton yearButton;
-	
-	//JToggleButton modernToggle;
-	//JToggleButton dialToggle;
-	JButton digitalButton;
-	JButton dialButton;
-	
-	JComboBox yearCombo;
-	JComboBox daysOfWeekCombo;
-	JComboBox dayCombo;
-	JComboBox monthsCombo;
+class DigitalClockController {
 	
 	CommandStore commandStore = new CommandStore();
-	List<DigitalClockView> clockViews;
 	DigitalClockModel model;
 	
 	public DigitalClockController(DigitalClockModel model) {
-		
-		super();
+
 		this.model = model;
-		secondButton = new JButton("Second");
-		minuteButton = new JButton("Minute");
-		hourButton = new JButton("Hour");
-		dayButton = new JButton("Day");
-		dayOfWeekButton = new JButton("Day of week");
-		monthButton = new JButton("Month");
-		yearButton = new JButton("Year");
-		//modernToggle = new JToggleButton("MODERN VIEW");
-		//dialToggle = new JToggleButton("DIAL VIEW");
-		digitalButton = new JButton("DIGITAL VIEW");
-		dialButton = new JButton("DIAL VIEW");
-		yearCombo = new JComboBox(model.years);
-		daysOfWeekCombo = new JComboBox(model.generateDaysOfWeek());
-		monthsCombo = new JComboBox(model.generateMonths());
-		JButton redo = new JButton("redo");
-		JButton undo = new JButton("undo");
-		
-		JPanel p = new JPanel();
-		
-		secondButton.addActionListener(new MyButtonListener());
-		minuteButton.addActionListener(new MyButtonListener());
-		hourButton.addActionListener(new MyButtonListener());
-		dayButton.addActionListener(new MyButtonListener());
-		dayOfWeekButton.addActionListener(new MyButtonListener());
-		monthButton.addActionListener(new MyButtonListener());
-		yearButton.addActionListener(new MyButtonListener());
-		//modernToggle.setSelected(true);
-		//modernToggle.addItemListener(new MyItemListener("modern"));
-		//dialToggle.setSelected(true);
-		//dialToggle.addItemListener(new MyItemListener("dial"));
-		digitalButton.addActionListener(new MyButtonListener());
-		dialButton.addActionListener(new MyButtonListener());
-		undo.addActionListener(new UndoListener());
-		redo.addActionListener(new RedoListener());
-		
-		p.add(secondButton);
-		p.add(hourButton);
-		p.add(minuteButton);
-		p.add(dayButton);
-		p.add(dayOfWeekButton);
-		p.add(monthButton);
-		p.add(yearButton);
-		//p.add(dialToggle);
-		//p.add(modernToggle);
-		p.add(digitalButton);
-		p.add(dialButton);
-//		p.add(yearCombo);
-//		p.add(daysOfWeekCombo);
-//		p.add(monthsCombo);
-		p.add(redo);
-		p.add(undo);
-		this.setContentPane(p);
 		
 	} // end of constructor
 	
@@ -127,19 +60,19 @@ class DigitalClockController extends JFrame {
 				command = new DTUpdateYearCmd(model);
 				commandStore.Execute(command);
 				
-			} else if (e.getActionCommand().equals("DIGITAL VIEW")) {
+			} else if (e.getActionCommand().equals("Add Digital View")) {
 				
 				DigitalClockView digital = new DigitalClockDigitalView();
-				digital.addObservable(model);
-				clockViews.add(digital);
-				// add shit
+				model.addObserver(digital);
+				digital.buildDigitalClockView();
 				
-			} else if (e.getActionCommand().equals("DIAL VIEW")) {
+			} else if (e.getActionCommand().equals("Add Dial View")) {
 				
-				DigitalClockView dial = new DigitalClock3DDialsView();
-				dial.addObservable(model);
-				clockViews.add(dial);
-				// add shit
+				DigitalClockView dial = new DigitalClock3DialsView();
+				
+				model.addObserver(dial);
+
+				dial.buildDigitalClock3DialsView();
 				
 			} // end of if-else if-else
 			
@@ -149,80 +82,24 @@ class DigitalClockController extends JFrame {
 		
 	} // end of class MyButtonListener
 	
-	private class UndoListener implements ActionListener {
+	private class CmdListener implements ActionListener {
 		
 		public void actionPerformed(ActionEvent e) {
 			
-			commandStore.Undo();
+			if (e.getActionCommand().equals("Undo Command")) {
+				
+				commandStore.Undo();
+				
+			} else if (e.getActionCommand().equals("Redo Command")) {
+				
+				commandStore.Redo();
+				
+			} // end of if-else if
+			
 			model.notifyObservers();
 			
 		} // end of method actionPerformed
 		
-	} // end of class undoListener
-	
-	private class RedoListener implements ActionListener {
-		
-		public void actionPerformed(ActionEvent e) {
-			 
-			commandStore.Redo();
-			model.notifyObservers();
-			
-		} // end of method actionPerformed
-		
-	} // end of class RedoListener
-	
-	private class MyItemListener implements ItemListener {
-		
-		private String buttonName;
-		
-		public MyItemListener(String buttonName) {
-			
-			this.buttonName = buttonName;
-			
-		} // end of constructor
-		
-		private void toggleOffView() {
-			
-			if (buttonName.equals("digital")) {
-				
-				 ((JFrame) SwingUtilities.getWindowAncestor(model.getObserver(1))).setVisible(false);
-				 
-			} else if (buttonName.equals("dial")) {
-				
-				 ((JFrame) SwingUtilities.getWindowAncestor(model.getObserver(0))).setVisible(false);
-				
-			} // end of if-else if
-			
-		} // end of method toggleOffView
-		
-		private void toggleOnView() {
-			
-			if (buttonName.equals("digital")) {
-				
-				 ((JFrame) SwingUtilities.getWindowAncestor(model.getObserver(1))).setVisible(false);
-				 
-			} else if (buttonName.equals("dial")) {
-				
-				 ((JFrame) SwingUtilities.getWindowAncestor(model.getObserver(0))).setVisible(false);
-				
-			} // end of if-else if
-			
-		} // end of method toggleOnView
-		
-		public void itemStateChanged(ItemEvent e) {
-			
-			if (e.getStateChange() == ItemEvent.SELECTED) {
-				
-				toggleOnView();
-				
-			} else if (e.getStateChange() == ItemEvent.DESELECTED) {
-				
-				toggleOffView();
-				
-			} // end of if-else if
-			
-		} // end of method itemStateChanged
-		
-	} // end of class MyItemListener
+	} // end of class CmdListener
 	
 } // end of class DigitalClockController

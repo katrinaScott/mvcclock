@@ -1,3 +1,5 @@
+package src;
+
 /**
  * An example command. 
  * Note that to UnExecute the day of the week, we have to know what
@@ -5,15 +7,6 @@
  * Do not be afraid to define whatever instance variables and methods you need here.
  */
 class DTUpdateDayOfWeekCmd implements DigitalClockCmd {
-	
-	/*
-	public void Execute() {
-		// TBD
-	}
-	
-	public void UnExecute() {
-		// TBD
-	}*/
 	
 	private DigitalClockModel model;
 	

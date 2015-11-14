@@ -1,3 +1,5 @@
+package src;
+
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.WindowAdapter;
@@ -41,50 +43,24 @@ public class DigitalClock extends JFrame {
 		DigitalClockView dialView = new DigitalClock3DialsView();
 		DigitalClockView digitalView = new DigitalClockDigitalView();
 		
-		model = new DigitalClockModel(dialView);
+		model = new DigitalClockModel();
+		//model = new DigitalClockModel(digitalView);
+		
+		model.addObserver(dialView);
 		model.addObserver(digitalView);
 		
 		buildControllerView(model);
-		buildDigitalClockView(digitalView);
-		buildDigitalClock3DialsView(model, dialView);
+		digitalView.buildDigitalClockView();
+		dialView.buildDigitalClock3DialsView();
+
 		model.start();
 		
 	} // end of main method
 	
-	private static void buildDigitalClockView(DigitalClockView digitalView) {
-		
-		JFrame digitalFrame = new JFrame("Digital");
-		digitalFrame.addWindowListener(windowAdapter);
-		digitalFrame.add(digitalView);
-		digitalView.add(new JLabel("placeholder time"));
-		// add model's string to it
-		
-		digitalFrame.pack();
-		digitalFrame.setSize(new Dimension(400, 300));
-		digitalFrame.setLocation(new Point(20, 100));
-		digitalFrame.setVisible(true);
-		
-	} // end of method buildDigitalClockView
-	
-	private static void buildDigitalClock3DialsView(final DigitalClockModel dtModel, DigitalClockView dialView) {
-		
-		JFrame dialFrame = new JFrame("3 Dial");
-		dialFrame.addWindowListener(windowAdapter);
-		dialFrame.getContentPane().add("Center", dialView);
-		dialFrame.pack();
-		dialFrame.setSize(new Dimension(400, 300));
-		dialFrame.setLocationRelativeTo(null);
-		
-		//dialFrame.add(digitalView);
-		//dialView.add(new JLabel("placeholder time"));
-		// add model's string to it
-
-		dialFrame.setVisible(true);
-	} // end of method buildDigitalClock3DialsView
-	
 	private static void buildControllerView(DigitalClockModel model) {
 		
-		JFrame controllerFrame = new DigitalClockController(model);
+		JFrame controllerFrame = new DigitalClockSettingsUI(model);
+		controllerFrame.addWindowListener(windowAdapter);
 		controllerFrame.setSize(new Dimension(350, 400));
 		controllerFrame.setLocation(new Point(900, 300));
 		controllerFrame.setVisible(true);

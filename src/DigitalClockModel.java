@@ -1,4 +1,7 @@
+package src;
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -17,7 +20,6 @@ class DigitalClockModel implements Runnable {
 	private int _year;
     private Thread _thread;
     private List<DigitalClockView> observers = new ArrayList<DigitalClockView>();
-    //DigitalClockView _dtView = null;
     
     public String _daysOfWeek[] = {
     		" ", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
@@ -28,18 +30,20 @@ class DigitalClockModel implements Runnable {
     };
     public String years[] = new String[40];
     
-	public DigitalClockModel(DigitalClockView view) {
+	public DigitalClockModel() {
+
+		Calendar local = Calendar.getInstance();
 		
-		_second = 0;
-		_minute = 0;
-		_hour = 0;
-		_dayOfWeek = 1;
-		_day = 1;
-		_month = 1;
-		_year = 2000;
+		_second = local.get(Calendar.YEAR);
+		_minute = local.get(Calendar.MINUTE);
+		_hour = local.get(Calendar.HOUR);
+		_dayOfWeek = local.get(Calendar.DAY_OF_WEEK);
+		_day = local.get(Calendar.DAY_OF_MONTH);
+		_month = local.get(Calendar.MONTH);
+		_year = local.get(Calendar.YEAR);
 		
-		addObserver(view);
-		generateYears();
+		//addObserver(view);
+		//generateYears();
 		
 	} // end of constructor
 	
@@ -111,6 +115,21 @@ class DigitalClockModel implements Runnable {
         
     } // end of method incrementSecond
     
+    public void decrementSecond() {
+    	
+    	if (_second <= 0) {
+    		
+    		_second = 59;
+    		decrementMin();
+    		
+    	} else {
+    		
+    		_second--;
+    		
+    	} // end of if-else
+    	
+    } // end of method decrementSecond
+    
     public void incrementMin() {
     	
         if (_minute >= 59) {
@@ -126,6 +145,21 @@ class DigitalClockModel implements Runnable {
         
     } // end of method incrementMin
     
+    public void decrementMin() {
+    	
+    	if (_minute <= 0) {
+    		
+    		_minute = 59;
+    		decrementHour();
+    		
+    	} else {
+    		
+    		_minute--;
+    		
+    	} // end of if-else
+    	
+    } // end of method decrementMin
+    
     public void incrementHour() {
     	
         if (_hour >= 23) {
@@ -140,6 +174,21 @@ class DigitalClockModel implements Runnable {
         } // end of if-else
         
     } // end of method incrementHour
+    
+    public void decrementHour(){
+    	
+    	if (_hour <= 0) {
+    		
+    		_hour = 23;
+    		decrementDay();
+    		
+    	} else {
+    		
+    		_hour--;
+    		
+    	} // end of if-else
+    	
+    } // end of method decrementHour
     
     public void incrementDay() {
     	
@@ -274,8 +323,8 @@ class DigitalClockModel implements Runnable {
     public String toString() {
     	
         //TODO format the zeroes in
-        String s  = _hour + ":" + _minute + ":" + _second + "\n" +
-        _daysOfWeek[_dayOfWeek] + ", " + _months[_month] + " " + _day + ", " + _year;
+        String s  = _hour + " : " + _minute + " : " + _second + " \n" +
+        _daysOfWeek[_dayOfWeek-1] + ", " + _months[_month+1] + " " + _day + ", " + _year;
         
         return s;
         
@@ -289,11 +338,23 @@ class DigitalClockModel implements Runnable {
         
     } // end of method addObserver
     
+	public DigitalClockView getObserver(int i) {
+		
+	    return observers.get(i);
+	    
+	} // end of method getObserver
+    
     public int getSecond() {
     	
         return _second;
         
     } // end of method getSecond
+    
+    public void setSecond(int second) {
+    	
+    	_second = second;
+    	
+    } // end of method setSecond
     
     public int getMinute() {
     	
@@ -301,58 +362,112 @@ class DigitalClockModel implements Runnable {
         
     } // end of method getMinute
     
+    public void setMinute(int minute) {
+    	
+    	_minute = minute;
+    	
+    } // end of method setMinute
+    
     public int getHour() {
     	
         return _hour;
         
     } // end of method getHour
     
-	public DigitalClockView getObserver(int i) {
-		
-	    return observers.get(i);
-	    
-	} // end of method getObserver
+    public void setHour(int hour) {
+    	
+    	_hour = hour;
+    	
+    } // end of method setHour
     
-	private void generateYears() {
-		
-	    int count = 0;
-	    
-	    for (int i = 2011; i <= 2050; i++) {
-	    	
-	        years[count] = Integer.toString(i);
-	        count++;
-	        
-	    } // end of for
-	    
-	} // end of method generateYears
-	
-	//for combo boxes
-	public String[] generateDaysOfWeek() {
-		
-	    String[] s = new String[7];
-	    
-	    for (int i = 0; i < 7; i++) {
-	    	
-	        s[i] = _daysOfWeek[i + 1];
-	        
-	    } // end of for
-	    
-	    return s;
-	    
-	} // end of method generateDaysOfWeek
-	
-	public String[] generateMonths() {
-		
-	    String[] s = new String[12];
-	    
-	    for (int i = 0; i < 12; i++) {
-	    	
-	        s[i] = _months[i + 1];
-	        
-	    } // end of for
-	    
-	    return s;
-	    
-	} // end of method generateMonths
+    public int getDay() {
+    	
+        return _day;
+        
+    } // end of method getDay
+    
+    public void setDay(int day) {
+    	
+    	_day = day;
+    	
+    } // end of method setDay
+    
+    public int getDayOfWeek() {
+    	
+    	return _dayOfWeek;
+    	
+    } // end of method getDayOfWeek
+    
+    public void setDayOfWeek(int dayOfWeek) {
+    	
+    	_dayOfWeek = dayOfWeek;
+    	
+    } // end of method setDayOfWeek
+    
+    public int getMonth() {
+    	
+        return _month;
+        
+    } // end of method getMonth
+    
+    public void setMonth(int month) {
+    	
+    	_month = month;
+    	
+    } // end of method setMonth
+    
+    public int getYear() {
+    	
+        return _year;
+        
+    } // end of method getYear
+    
+    public void setYear(int year) {
+    	
+    	_year = year;
+    	
+    } // end of method setYear
+    
+//	private void generateYears() {
+//		
+//	    int count = 0;
+//	    
+//	    for (int i = 2011; i <= 2050; i++) {
+//	    	
+//	        years[count] = Integer.toString(i);
+//	        count++;
+//	        
+//	    } // end of for
+//	    
+//	} // end of method generateYears
+//	
+//	//for combo boxes
+//	public String[] generateDaysOfWeek() {
+//		
+//	    String[] s = new String[7];
+//	    
+//	    for (int i = 0; i < 7; i++) {
+//	    	
+//	        s[i] = _daysOfWeek[i + 1];
+//	        
+//	    } // end of for
+//	    
+//	    return s;
+//	    
+//	} // end of method generateDaysOfWeek
+//	
+//	public String[] generateMonths() {
+//		
+//	    String[] s = new String[12];
+//	    
+//	    for (int i = 0; i < 12; i++) {
+//	    	
+//	        s[i] = _months[i + 1];
+//	        
+//	    } // end of for
+//	    
+//	    return s;
+//	    
+//	} // end of method generateMonths
 	
 } // end of class DigitalClockModel
