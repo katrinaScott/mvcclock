@@ -3,24 +3,26 @@ package src;
 public class DTUpdateHourCmd implements DigitalClockCmd {
 
 	private DigitalClockModel model;
-	private int hourNum;
+	private int prevHour, curHour;
 	
 	public DTUpdateHourCmd(DigitalClockModel model, String hour) {
 		
 		this.model = model;
-		this.hourNum = Integer.parseInt(hour);
+		this.curHour = Integer.parseInt(hour);
 		
 	} // end of constructor
 
 	public void Execute() {
 		
-		model.setHour(this.hourNum);
+		this.prevHour = model.getHour();
+		model.setHour(this.curHour);
 		//model.incrementHour();
 
 	} // end of method Execute
 
 	public void UnExecute() {
 		
+		model.setHour(this.prevHour);
 		//model.decrementHour();
 
 	} // end of method UnExecute

@@ -1,31 +1,31 @@
 package src;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 public class DTUpdateDayCmd implements DigitalClockCmd {
 
 private DigitalClockModel model;
-private int dayNum;
+private int prevDay, curDay;
 	
 	public DTUpdateDayCmd(DigitalClockModel model, String day) {
 		
 		this.model = model;
-		this.dayNum = Integer.parseInt(day);
+		this.curDay = Integer.parseInt(day);
+		//this.prevDay = model.getDay();
+		//this.curDay = dayNum;
 		
 	} // end of constructor
 	
 	public void Execute() {
 		
 		//model.incrementDay();
-		model.setDay(this.dayNum);
+		this.prevDay = model.getDay();
+		model.setDay(this.curDay);
 		
 	} // end of method Execute
 	
 	public void UnExecute() {
 		
 		//model.decrementDay();
+		model.setDay(this.prevDay);
 		
 	} // end of method UnExecute
 

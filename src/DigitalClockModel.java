@@ -320,15 +320,21 @@ class DigitalClockModel implements Runnable {
         
     } // end of method incrementYear
     
-    public String toString() {
+    public String dateToString() {
     	
-        //TODO format the zeroes in
-        String s  = _hour + " : " + _minute + " : " + _second + " \n" +
-        _daysOfWeek[_dayOfWeek-1] + ", " + _months[_month+1] + " " + _day + ", " + _year;
+        String date  = _daysOfWeek[_dayOfWeek] + ", " + _months[_month+1] + " " + _day + ", " + _year;
    
-        return s;
+        return date;
         
-    } // end of method toString
+    } // end of method dateToString
+    
+    public String timeToString() {
+    	
+        String time  = _hour + " : " + _minute + " : " + _second;
+   
+        return time;
+        
+    } // end of method timeToString
 
     //add views
     public void addObserver(DigitalClockView observer) {

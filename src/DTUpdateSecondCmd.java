@@ -3,24 +3,26 @@ package src;
 public class DTUpdateSecondCmd implements DigitalClockCmd {
 
 	private DigitalClockModel model;
-	private int secondNum;
+	private int prevSecond, curSecond;
 	
 	public DTUpdateSecondCmd(DigitalClockModel model, String seconds) {
 		
 		this.model = model;
-		this.secondNum = Integer.parseInt(seconds);
+		this.curSecond = Integer.parseInt(seconds);
 		
 	} // end of constructor
 
 	public void Execute() {
 		
-		model.setSecond(this.secondNum);
+		this.prevSecond = model.getSecond();
+		model.setSecond(this.curSecond);
 		//model.incrementSecond();
 
 	} // end of method Execute
 
 	public void UnExecute() {
 		
+		model.setSecond(this.prevSecond);
 		//model.decrementSecond();
 
 	} // end of method UnExecute

@@ -43,13 +43,12 @@ public abstract class DigitalClockView extends JPanel{
 	public void buildDigitalClockView() {
 		
 		JFrame digitalFrame = new JFrame("Digital");
-		//digitalFrame.addWindowListener(windowAdapter);
 		digitalFrame.add(this);
-		this.add(new JLabel("placeholder"));
-		// add model's string to it
+		this.add(new JLabel("time placeholder"));
+		this.add(new JLabel("date placeholder"));
 		
 		digitalFrame.pack();
-		digitalFrame.setSize(new Dimension(400, 300));
+		digitalFrame.setSize(new Dimension(400, 100));
 		digitalFrame.setLocation(new Point(20, 100));
 		digitalFrame.setVisible(true);
 		
@@ -58,8 +57,7 @@ public abstract class DigitalClockView extends JPanel{
 	public void buildDigitalClock3DialsView() {
 		
 		JFrame dialFrame = new JFrame("3 Dial");
-		//dialFrame.addWindowListener(windowAdapter);
-		dialFrame.getContentPane().add("Center", this);
+		dialFrame.getContentPane().add(this);
 		dialFrame.pack();
 		dialFrame.setSize(new Dimension(400, 300));
 		dialFrame.setLocationRelativeTo(null);

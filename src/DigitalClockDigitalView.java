@@ -1,26 +1,32 @@
 package src;
 
+import java.awt.Font;
+
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 
 public class DigitalClockDigitalView  extends DigitalClockView {
 	
-	private JLabel label;
-	//private int i = 0;
+	private JLabel time, date;
 	
 	public DigitalClockDigitalView() {
 		
 		super();
+		this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		
 	} // end of constructor
 	
-	public void reset() {
-		//hurr
-	} // end of method reset
-	
 	public void draw() {
 		
-		label = (JLabel) this.getComponent(0);
-		label.setText(model.toString());
+		time = (JLabel) this.getComponent(0);
+		time.setText(model.timeToString() + "\n");
+		time.setFont(new Font("DejaVu Sans", Font.BOLD, 30));
+		time.setAlignmentX(CENTER_ALIGNMENT);
+		
+		date = (JLabel) this.getComponent(1);
+		date.setText(model.dateToString());
+		date.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
+		date.setAlignmentX(CENTER_ALIGNMENT);
 		
 	} // end of method draw
 

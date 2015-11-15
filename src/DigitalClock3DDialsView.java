@@ -23,11 +23,7 @@ import javax.swing.JPanel;
  */
 class DigitalClock3DialsView extends DigitalClockView {
 	
-    private static int caps[] = { BasicStroke.CAP_BUTT, 
-        BasicStroke.CAP_SQUARE, BasicStroke.CAP_ROUND};
-    private static int joins[] = { BasicStroke.JOIN_MITER, 
-        BasicStroke.JOIN_BEVEL, BasicStroke.JOIN_ROUND};
-	private static Color colors[] = {Color.gray, Color.pink, Color.lightGray};
+	private static Color colors[] = {Color.pink, Color.lightGray, Color.gray};
 	private static BasicStroke bs1 = new BasicStroke(1.0f);
 	
 	// three arms of clock
@@ -67,7 +63,7 @@ class DigitalClock3DialsView extends DigitalClockView {
         for (int i = 0; i < lines.length; i++) {
         	
             lines[i] = new Line2D.Float(0,0,size,0);
-            strokes[i] = new BasicStroke(size/3, caps[i], joins[i]);
+            strokes[i] = new BasicStroke(size/3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
             rAmt[i] = 270;		// vertical
             
         } // end of for
