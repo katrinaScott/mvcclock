@@ -40,8 +40,8 @@ public abstract class DigitalClockView extends JPanel{
 		this.add(new JLabel());
 		
 		digitalFrame.pack();
-		digitalFrame.setSize(new Dimension(400, 100));
-		digitalFrame.setLocation(new Point(20, 100));
+		digitalFrame.setSize(new Dimension(400, 120));
+		digitalFrame.setLocation(new Point(200, 100));
 		digitalFrame.setVisible(true);
 		
 	} // end of method buildDigitalClockView
@@ -49,11 +49,11 @@ public abstract class DigitalClockView extends JPanel{
 	public void buildDigitalClock3DialsView() {
 		
 		JFrame dialFrame = new JFrame("3 Dial");
-		dialFrame.getContentPane().add(this);
+		dialFrame.add(this);
 		
 		dialFrame.pack();
 		dialFrame.setSize(new Dimension(400, 300));
-		dialFrame.setLocationRelativeTo(null);
+		dialFrame.setLocation(new Point(200, 250));
 		dialFrame.setVisible(true);
 		
 	} // end of method buildDigitalClock3DialsView
@@ -63,5 +63,11 @@ public abstract class DigitalClockView extends JPanel{
 		System.out.println("wrong update");
 		
 	} // end of method updateTime
+	
+	public void updateDate(String date) {
+		
+		System.out.println("wrong update");
+		
+	} // end of method updateDate
 
 } // end of class DigitalClockView

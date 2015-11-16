@@ -30,13 +30,13 @@ class DigitalClockController {
     	for (DigitalClockView view : observers) {
     		
     		view.updateTime(model.getSecond(), model.getMinute(), model.getHour());
+    		view.updateDate(model.dateToString());
     		view.draw();
     		
     	} // end of for
     	
     } // end of method notifyObservers
-	
-    //add views
+
     public void addObserver(DigitalClockView observer) {
     	
         observers.add(observer);

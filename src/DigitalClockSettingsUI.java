@@ -4,24 +4,19 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-/**
- * Options UI
- * This is the class that lets a user change the settings of the 
- * clock. Changes in settings will create commands. Commands will 
- * modify the model directly. The controller will then be alerted 
- * that a change occured (just as if one second passed), and update
- * all registered views accordingly.
- */
 class DigitalClockSettingsUI extends JFrame {
 	
 	DigitalClockModel model;
@@ -41,79 +36,124 @@ class DigitalClockSettingsUI extends JFrame {
 	JComboBox<String> dayBox;
 	JComboBox<String> monthBox;
 	
-	public DigitalClockSettingsUI(DigitalClockModel model) {
+	public DigitalClockSettingsUI(DigitalClockModel model, DigitalClockController controller) {
 		
 		super();
+		this.setTitle("Settings");
 		this.model = model;
-		this.controller = new DigitalClockController(model);
+		this.controller = controller;
 		
 		JPanel controllerPanel = new JPanel();
-		controllerPanel.setLayout(new GridLayout(8, 2, 2, 2));
+		controllerPanel.setLayout(new GridLayout(8, 2, 5, 5));
+		controllerPanel.setBackground(Color.DARK_GRAY);
+		controllerPanel.setBorder(BorderFactory.createLineBorder(Color.DARK_GRAY, 10));
 		
-		dialButton = new JButton("Add Dial View");
+		dialButton = new JButton("ADD DIAL VIEW");
 		dialButton.addActionListener(new ButtonListener());
+		dialButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
+		dialButton.setBackground(Color.GRAY);
+		dialButton.setForeground(Color.WHITE);
 		controllerPanel.add(dialButton);
 		
-		digitalButton = new JButton("Add Digital View");
+		digitalButton = new JButton("ADD DIGITAL VIEW");
 		digitalButton.addActionListener(new ButtonListener());
+		digitalButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
+		digitalButton.setBackground(Color.GRAY);
+		digitalButton.setForeground(Color.WHITE);
 		controllerPanel.add(digitalButton);
 		
 		JLabel secondsLabel = new JLabel("Change Seconds");
+		secondsLabel.setForeground(Color.WHITE);
+		secondsLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(secondsLabel);
 		
 		secondsField = new JTextField();
 		secondsField.setEditable(true);
 		secondsField.addKeyListener(new TextListener());
+		secondsField.setBackground(Color.GRAY);
+		secondsField.setForeground(Color.WHITE);
+		secondsField.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(secondsField);
 		
 		JLabel minutesLabel = new JLabel("Change Minutes");
+		minutesLabel.setForeground(Color.WHITE);
+		minutesLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(minutesLabel);
 		
 		minutesField = new JTextField();
 		minutesField.setEditable(true);
 		minutesField.addKeyListener(new TextListener());
+		minutesField.setBackground(Color.GRAY);
+		minutesField.setForeground(Color.WHITE);
+		minutesField.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(minutesField);
 		
 		JLabel hourLabel = new JLabel("Change Hour");
+		hourLabel.setForeground(Color.WHITE);
+		hourLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(hourLabel);
 		
 		hourField = new JTextField();
 		hourField.setEditable(true);
 		hourField.addKeyListener(new TextListener());
+		hourField.setBackground(Color.GRAY);
+		hourField.setForeground(Color.WHITE);
+		hourField.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(hourField);
 		
 		JLabel dayLabel = new JLabel("Change Day of Month");
+		dayLabel.setForeground(Color.WHITE);
+		dayLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(dayLabel);
 		
 		String[] daysOfMonth = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", 
 				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
 		dayBox = new JComboBox<String>(daysOfMonth);
 		dayBox.addActionListener(new ButtonListener());
+		dayBox.setBackground(Color.GRAY);
+		dayBox.setForeground(Color.WHITE);
+		dayBox.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(dayBox);
 		
 		JLabel monthLabel = new JLabel("Change Month");
+		monthLabel.setForeground(Color.WHITE);
+		monthLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(monthLabel);
 		
 		String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September",
 				"October", "November", "December"};
 		monthBox = new JComboBox<String>(months);
 		monthBox.addActionListener(new ButtonListener());
+		monthBox.setBackground(Color.GRAY);
+		monthBox.setForeground(Color.WHITE);
+		monthBox.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(monthBox);
 		
 		JLabel yearLabel = new JLabel("Change Year");
+		yearLabel.setForeground(Color.WHITE);
+		yearLabel.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(yearLabel);
 		
 		yearField = new JTextField();
 		yearField.setEditable(true);
 		yearField.addKeyListener(new TextListener());
+		yearField.setBackground(Color.GRAY);
+		yearField.setForeground(Color.WHITE);
+		yearField.setFont(new Font("DejaVu Sans", Font.BOLD, 15));
 		controllerPanel.add(yearField);
 		
 		undo = new JButton("Undo Command");
 		undo.addActionListener(new ButtonListener());
+		undo.setBackground(Color.GRAY);
+		undo.setForeground(Color.WHITE);
+		undo.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(undo);
 		
 		redo = new JButton("Redo Command");
 		redo.addActionListener(new ButtonListener());
+		redo.setBackground(Color.GRAY);
+		redo.setForeground(Color.WHITE);
+		redo.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(redo);
 		
 		getContentPane().add(controllerPanel);

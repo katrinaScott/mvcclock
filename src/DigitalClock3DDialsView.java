@@ -3,6 +3,7 @@ package src;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
@@ -15,18 +16,13 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 
-import javax.swing.JPanel;
+import javax.swing.JLabel;
 
-
-/**
- * Classic 3 dials view for digital Clock
- */
 class DigitalClock3DialsView extends DigitalClockView {
 	
 	private static Color colors[] = {Color.pink, Color.lightGray, Color.gray};
 	private static BasicStroke bs1 = new BasicStroke(1.0f);
 	
-	// three arms of clock
     private Line2D lines[] = new Line2D[3];
     private int rAmt[] = new int[lines.length];
     private int speed[] = new int[lines.length];
@@ -36,10 +32,8 @@ class DigitalClock3DialsView extends DigitalClockView {
     private float size;
     private Ellipse2D ellipse = new Ellipse2D.Double();
 	private BufferedImage bimg;
-
-	/**
-	 * init background
-	 */
+	private JLabel date;
+	private String dateString;
 	
     public void init() {
     	
@@ -48,14 +42,11 @@ class DigitalClock3DialsView extends DigitalClockView {
     } // end of method init
 
     public void draw() {
-    	
-        repaint();
+
+		repaint();
         
     } // end of method draw
     
-    /**
-     * reset view: the shape of arms, etc
-     */
     public void reset(int w, int h) {
     	
         size = (w > h) ? h/6f : w/6f;
@@ -63,7 +54,7 @@ class DigitalClock3DialsView extends DigitalClockView {
         for (int i = 0; i < lines.length; i++) {
         	
             lines[i] = new Line2D.Float(0,0,size,0);
-            strokes[i] = new BasicStroke(size/3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
+            strokes[i] = new BasicStroke(size/6, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
             rAmt[i] = 270;		
             
         } // end of for
@@ -108,16 +99,6 @@ class DigitalClock3DialsView extends DigitalClockView {
 	public void paint(Graphics g) {	
 		
 		Dimension d = getSize();
-		/*// DD: **Note how the view is updating itself based on a calculation (the step())
-        // call. This is *wrong* -- it should get a notification from
-        // the controller, which is alerted by the model, what the current time is. 
-		step(d.width, d.height);
-		Graphics2D g2 = createGraphics2D(d.width, d.height);
-		drawClockArms(d.width, d.height, g2);
-		g2.dispose();
-		g.drawImage(bimg, 0, 0, this);*/
-		
-		//step();
 		
 		Graphics2D g2 = createGraphics2D(d.width, d.height);
 		drawClockArms(d.width, d.height, g2);
@@ -128,7 +109,6 @@ class DigitalClock3DialsView extends DigitalClockView {
 	
     public Graphics2D createGraphics2D(int w, int h) {
     	
-    	// boilerplate Java 2D graphics code
         Graphics2D g2 = null;
         
         if (bimg == null || bimg.getWidth() != w || bimg.getHeight() != h) {
@@ -139,7 +119,7 @@ class DigitalClock3DialsView extends DigitalClockView {
         } // end of if
         
         g2 = bimg.createGraphics();
-        g2.setBackground(getBackground());
+        g2.setBackground(Color.DARK_GRAY);
         g2.clearRect(0, 0, w, h);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                             RenderingHints.VALUE_ANTIALIAS_ON);
@@ -150,7 +130,7 @@ class DigitalClock3DialsView extends DigitalClockView {
 	private void drawClockArms(int w, int h, Graphics2D g2) {
 
         ellipse.setFrame(w/2-size,h/2-size,size*2,size*2);
-        g2.setColor(Color.black);
+        g2.setColor(Color.WHITE);
         g2.draw(ellipse);
 
         for (int i = 0; i < lines.length; i++) {
@@ -165,7 +145,7 @@ class DigitalClock3DialsView extends DigitalClockView {
         } // end of for
 
         g2.setStroke(bs1);
-        g2.setColor(Color.black);
+        g2.setColor(Color.WHITE);
         
         for (int i = 0; i < pts.length; i++) {
         	
@@ -176,10 +156,6 @@ class DigitalClock3DialsView extends DigitalClockView {
         
     } // end of method drawClockArms
 	
-	/**
-	 * step forward on the display: move arm forward
-	 */
-
 	public void updateTime(int second, int minute, int hour) {
 		
 		rAmt[0] = second * 6 - 90;
@@ -187,13 +163,11 @@ class DigitalClock3DialsView extends DigitalClockView {
 		rAmt[2] = hour * 30 - 90;
 
 	} // end of method updateTime
-	/*
-    public void step() {
-    	
-    	rAmt[0] = model.getSecond() * 6 - 90;
-        rAmt[1] = model.getMinute() * 6 - 90;
-        rAmt[2] = model.getHour() * 30 - 90;
-        
-    } // end of method step
-	*/
+	
+	public void updateDate(String date) {
+		
+		this.dateString = date;
+		
+	} // end of method updateDate
+
 } // end of class DigitalClock3DDialsView

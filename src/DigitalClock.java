@@ -7,62 +7,28 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
-/**
- * This is our **main** class for a DigitalClock
- * hcl05001 Homework4
- */
-
 public class DigitalClock extends JFrame {
-	
-	CommandStore cmdStore = new CommandStore();
+
 	static DigitalClockModel model;
 	
 	public static void main(String argv[]) {
-	        
-			/*//DD *note -- this really doesn't follow the MVC pattern yet.
-			//Here, we are registering a view with a model. We should instead register
-			//a controller with the model, and as the user opens views we register
-			//views with the controller. 
-	        DigitalClockView dtView = new DigitalClock3DialsView();
-	        final DigitalClockModel dtModel = new DigitalClockModel(dtView);
-	        dtModel.start();
-	        
-	        JFrame f = new JFrame("Digitial Clock: Design Patterns implementation");
-	        f.addWindowListener(new WindowAdapter() {
-	            public void windowClosing(WindowEvent e) {dtModel.stop(); System.exit(0);}
-	            public void windowDeiconified(WindowEvent e) { dtModel.start(); }
-	            public void windowIconified(WindowEvent e) { dtModel.stop(); }
-	        });
-	        f.getContentPane().add("Center", dtView);
-	        f.pack();
-	        f.setSize(new Dimension(400,300));
-	        f.show();*/
 		
 		model = new DigitalClockModel();
-		
-		//DigitalClockView dialView = new DigitalClock3DialsView();
-		//DigitalClockView digitalView = new DigitalClockDigitalView();
-		
-		//model.addObserver(dialView);
-		//model.addObserver(digitalView);
-		
+
 		DigitalClockController controller = new DigitalClockController(model);
 		model.setController(controller);
-		
-		buildControllerUI(model);
-		//digitalView.buildDigitalClockView();
-		//dialView.buildDigitalClock3DialsView();
+		buildControllerUI(model, controller);
 
 		model.start();
 		
 	} // end of main method
 	
-	private static void buildControllerUI(DigitalClockModel model) {
+	private static void buildControllerUI(DigitalClockModel model, DigitalClockController controller) {
 		
-		JFrame controllerFrame = new DigitalClockSettingsUI(model);
+		JFrame controllerFrame = new DigitalClockSettingsUI(model, controller);
 		controllerFrame.addWindowListener(windowAdapter);
-		controllerFrame.setSize(new Dimension(350, 400));
-		controllerFrame.setLocation(new Point(900, 300));
+		controllerFrame.setSize(new Dimension(400, 450));
+		controllerFrame.setLocation(new Point(600, 100));
 		controllerFrame.setVisible(true);
 		
 	} // end of method buildControllerView

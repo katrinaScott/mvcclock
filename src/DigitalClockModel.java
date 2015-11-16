@@ -16,7 +16,6 @@ class DigitalClockModel implements Runnable {
 	private int month;
 	private int year;
     private Thread thread;
-    //private List<DigitalClockView> observers = new ArrayList<DigitalClockView>();
     private DigitalClockController controller;
     
     public String daysOfWeek[] = {
@@ -62,13 +61,6 @@ class DigitalClockModel implements Runnable {
         Thread me = Thread.currentThread();
         while (thread == me) {
         	
-        	/*// DD: **Note what is happening here: the model is directly telling
-        	// the view to redraw every second. This is *wrong* -- every second,
-        	// the model should update its internal state. And whenever there is
-        	// an internal state change, the controller must be alerted. Each
-        	// controller will then tell all views to update itself accordingly.  
-            _dtView.draw();*/
-        	
         	incrementSecond();
         	notifyController();
             
@@ -90,17 +82,6 @@ class DigitalClockModel implements Runnable {
     	
     } // end of method notifyController
     
-//    public void notifyObservers() {
-//    	
-//    	for (DigitalClockView view : observers) {
-//    		
-//    		view.draw();
-//    		
-//    	} // end of for
-//    	
-//    } // end of method notifyObservers
-    
-    
     public void incrementSecond() {
     	
         if (second >= 59) {
@@ -110,12 +91,11 @@ class DigitalClockModel implements Runnable {
             
         } else {
         	
-            second++;
+        	second++;
             
         } // end of if-else
         
     } // end of method incrementSecond
-    
     
     public void decrementSecond() {
     	
@@ -329,28 +309,6 @@ class DigitalClockModel implements Runnable {
         return date;
         
     } // end of method dateToString
-    
-    public String timeToString() {
-    	
-        String time  = hour + " : " + minute + " : " + second;
-   
-        return time;
-        
-    } // end of method timeToString
-
-//    //add views
-//    public void addObserver(DigitalClockView observer) {
-//    	
-//        observers.add(observer);
-//        observer.addObservable(this);
-//        
-//    } // end of method addObserver
-//    
-//	public DigitalClockView getObserver(int i) {
-//		
-//	    return observers.get(i);
-//	    
-//	} // end of method getObserver
     
     public void setController(DigitalClockController controller) {
     	
