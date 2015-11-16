@@ -9,14 +9,11 @@ private int prevDay, curDay;
 		
 		this.model = model;
 		this.curDay = Integer.parseInt(day);
-		//this.prevDay = model.getDay();
-		//this.curDay = dayNum;
 		
 	} // end of constructor
 	
 	public void Execute() {
 		
-		//model.incrementDay();
 		this.prevDay = model.getDay();
 		model.setDay(this.curDay);
 		
@@ -24,7 +21,6 @@ private int prevDay, curDay;
 	
 	public void UnExecute() {
 		
-		//model.decrementDay();
 		model.setDay(this.prevDay);
 		
 	} // end of method UnExecute

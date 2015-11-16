@@ -1,59 +1,40 @@
 package src;
 
-//import java.util.ArrayList;
-
-// i did this
 import java.util.Stack;
 
 /**
  * For storing a history of all commands that have been made
  */
+
 class CommandStore {
-	/*ArrayList<DigitalClockCmd> _cmdList;
-	int _indexCurCmd;
 	
-	public CommandStore() {
-		_cmdList = new ArrayList<DigitalClockCmd>();
-		_indexCurCmd = -1;
-	}
-	public void Execute(DigitalClockCmd cmd) {
-		// execute the command, add cmd to list (and clear out old cmd if needed...)
-		// TBD
-	}
-	public void Undo() {
-		// TBD
-	}
-	public void Redo() {
-		// TBD
-	}*/
-	
-	Stack<DigitalClockCmd> undos;
-	Stack<DigitalClockCmd> redos;
+	Stack<DigitalClockCmd> undoCmds;
+	Stack<DigitalClockCmd> redoCmds;
 	
 	public CommandStore() {
 		
-		undos = new Stack<DigitalClockCmd>();
-		redos = new Stack<DigitalClockCmd>();
+		undoCmds = new Stack<DigitalClockCmd>();
+		redoCmds = new Stack<DigitalClockCmd>();
 		
 	} // end of constructor
 	
 	public void Execute(DigitalClockCmd command) {
 		
 		command.Execute();
-		undos.push(command);
+		undoCmds.push(command);
 		
-		if (!redos.empty())
-			redos.clear();
+		if (!redoCmds.empty())
+			redoCmds.clear();
 		
 	} // end of method Execute
 	
 	public void Undo() {
 		
-		if (!undos.empty()) {
+		if (!undoCmds.empty()) {
 			
-			DigitalClockCmd undid = undos.pop();
+			DigitalClockCmd undid = undoCmds.pop();
 			undid.UnExecute();
-			redos.push(undid);
+			redoCmds.push(undid);
 			
 		} // end if
 		
@@ -61,11 +42,11 @@ class CommandStore {
 	
 	public void Redo() {
 		
-		if (!redos.empty()) {
+		if (!redoCmds.empty()) {
 			
-			DigitalClockCmd redid = redos.pop();
+			DigitalClockCmd redid = redoCmds.pop();
 			redid.Execute();
-			undos.push(redid);
+			undoCmds.push(redid);
 			
 		} // end if
 		

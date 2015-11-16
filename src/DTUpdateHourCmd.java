@@ -16,14 +16,12 @@ public class DTUpdateHourCmd implements DigitalClockCmd {
 		
 		this.prevHour = model.getHour();
 		model.setHour(this.curHour);
-		//model.incrementHour();
 
 	} // end of method Execute
 
 	public void UnExecute() {
 		
 		model.setHour(this.prevHour);
-		//model.decrementHour();
 
 	} // end of method UnExecute
 

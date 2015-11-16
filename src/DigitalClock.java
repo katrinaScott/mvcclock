@@ -6,8 +6,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-
 
 /**
  * This is our **main** class for a DigitalClock
@@ -41,23 +39,25 @@ public class DigitalClock extends JFrame {
 	        f.show();*/
 		
 		model = new DigitalClockModel();
-		//model = new DigitalClockModel(digitalView);
 		
-		DigitalClockView dialView = new DigitalClock3DialsView();
-		DigitalClockView digitalView = new DigitalClockDigitalView();
+		//DigitalClockView dialView = new DigitalClock3DialsView();
+		//DigitalClockView digitalView = new DigitalClockDigitalView();
 		
-		model.addObserver(dialView);
-		model.addObserver(digitalView);
+		//model.addObserver(dialView);
+		//model.addObserver(digitalView);
 		
-		buildControllerView(model);
-		digitalView.buildDigitalClockView();
-		dialView.buildDigitalClock3DialsView();
+		DigitalClockController controller = new DigitalClockController(model);
+		model.setController(controller);
+		
+		buildControllerUI(model);
+		//digitalView.buildDigitalClockView();
+		//dialView.buildDigitalClock3DialsView();
 
 		model.start();
 		
 	} // end of main method
 	
-	private static void buildControllerView(DigitalClockModel model) {
+	private static void buildControllerUI(DigitalClockModel model) {
 		
 		JFrame controllerFrame = new DigitalClockSettingsUI(model);
 		controllerFrame.addWindowListener(windowAdapter);
@@ -75,18 +75,6 @@ public class DigitalClock extends JFrame {
 			System.exit(0);
 			
 		} // end of method windowClosing
-		
-		public void windowDeiconified(WindowEvent e) {
-			
-			model.start();
-			
-		} // end of method windowDeiconified
-		
-		public void windowIconified(WindowEvent e) {
-			
-			model.stop();
-			
-		} // end of method windowIconified
 		
 	}; // end of class WindowAdapter
 	

@@ -13,8 +13,7 @@ public class DTUpdateYearCmd implements DigitalClockCmd {
 	} // end of constructor
 
 	public void Execute() {
-		
-		//model.incrementYear();
+
 		this.prevYear = model.getYear();
 		model.setYear(this.curYear);
 
@@ -23,7 +22,6 @@ public class DTUpdateYearCmd implements DigitalClockCmd {
 	public void UnExecute() {
 		
 		model.setYear(this.prevYear);
-		//model.decrementYear();
 
 	} // end of method UnExecute
 

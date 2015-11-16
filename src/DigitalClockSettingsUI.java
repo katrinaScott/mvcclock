@@ -38,8 +38,8 @@ class DigitalClockSettingsUI extends JFrame {
 	JTextField hourField;
 	JTextField yearField;
 	
-	JComboBox dayBox;
-	JComboBox monthBox;
+	JComboBox<String> dayBox;
+	JComboBox<String> monthBox;
 	
 	public DigitalClockSettingsUI(DigitalClockModel model) {
 		
@@ -87,7 +87,7 @@ class DigitalClockSettingsUI extends JFrame {
 		
 		String[] daysOfMonth = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", 
 				"16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"};
-		dayBox = new JComboBox(daysOfMonth);
+		dayBox = new JComboBox<String>(daysOfMonth);
 		dayBox.addActionListener(new ButtonListener());
 		controllerPanel.add(dayBox);
 		
@@ -96,7 +96,7 @@ class DigitalClockSettingsUI extends JFrame {
 		
 		String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September",
 				"October", "November", "December"};
-		monthBox = new JComboBox(months);
+		monthBox = new JComboBox<String>(months);
 		monthBox.addActionListener(new ButtonListener());
 		controllerPanel.add(monthBox);
 		
@@ -131,26 +131,21 @@ class DigitalClockSettingsUI extends JFrame {
 
 					String seconds = secondsField.getText();
 					controller.updateSecond(seconds);
-					//model.incrementSecond();
 
 				} else if (enter.getSource().equals(minutesField)) {
 
 					String minutes = minutesField.getText();
 					controller.updateMinute(minutes);
-					//model.incrementMin();
 
 				} else if (enter.getSource().equals(hourField)) {
 
 					String hour = hourField.getText();
 					controller.updateHour(hour);
-					//model.incrementHour();
 
 				} else if (enter.getSource().equals(yearField)) {
 
 					String year = yearField.getText();
 					controller.updateYear(year);
-					//command = new DTUpdateYearCmd(model);
-					//commandStore.Execute(command);
 
 				} // end of if-else if
 			
@@ -179,14 +174,14 @@ class DigitalClockSettingsUI extends JFrame {
 				
 			} else if (click.getSource().equals(dayBox)) {
 				
-				JComboBox box = (JComboBox)click.getSource();
+				JComboBox<String> box = (JComboBox<String>)click.getSource();
 				String day = (String)box.getSelectedItem();
 				
 				controller.updateDay(day);
 				
 			} else if (click.getSource().equals(monthBox)) {
 				
-				JComboBox box = (JComboBox)click.getSource();
+				JComboBox<String> box = (JComboBox<String>)click.getSource();
 				String month = (String)box.getSelectedItem();
 				
 				controller.updateMonth(month);

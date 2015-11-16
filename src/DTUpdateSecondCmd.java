@@ -16,14 +16,12 @@ public class DTUpdateSecondCmd implements DigitalClockCmd {
 		
 		this.prevSecond = model.getSecond();
 		model.setSecond(this.curSecond);
-		//model.incrementSecond();
 
 	} // end of method Execute
 
 	public void UnExecute() {
 		
 		model.setSecond(this.prevSecond);
-		//model.decrementSecond();
 
 	} // end of method UnExecute
 

@@ -19,8 +19,7 @@ public class DTUpdateMonthCmd implements DigitalClockCmd {
 	} // end of constructor
 
 	public void Execute() {
-		
-		//model.incrementMonth();
+
 		this.prevMonth = model.getMonth();
 		model.setMonth(this.curMonth);
 
@@ -29,7 +28,6 @@ public class DTUpdateMonthCmd implements DigitalClockCmd {
 	public void UnExecute() {
 		
 		model.setMonth(this.prevMonth);
-		//model.decrementMonth();
 
 	} // end of method UnExecute
  

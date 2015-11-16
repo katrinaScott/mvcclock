@@ -1,7 +1,6 @@
 package src;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Point;
 
 import javax.swing.JFrame;
@@ -19,14 +18,7 @@ import javax.swing.JPanel;
 
 public abstract class DigitalClockView extends JPanel{
 	
-	/*//DD: Obviously, this is not a method that should be included in this
-	//interface. It is only there to support this sample code. 
-	public void draw() {};*/
-	
-	protected DigitalClockModel model;
-	final int SEC = 0;
-	final int MIN = 1;
-	final int HR = 2;
+	protected DigitalClockController controller;
 	
 	public void draw() {
 		
@@ -34,9 +26,9 @@ public abstract class DigitalClockView extends JPanel{
 		
 	} // end of method draw
 	
-	public void addObservable(DigitalClockModel model) {
+	public void addObservable(DigitalClockController controller) {
 		
-		this.model = model;
+		this.controller = controller;
 		
 	} // end of method addObservable
 	
@@ -44,8 +36,8 @@ public abstract class DigitalClockView extends JPanel{
 		
 		JFrame digitalFrame = new JFrame("Digital");
 		digitalFrame.add(this);
-		this.add(new JLabel("time placeholder"));
-		this.add(new JLabel("date placeholder"));
+		this.add(new JLabel());
+		this.add(new JLabel());
 		
 		digitalFrame.pack();
 		digitalFrame.setSize(new Dimension(400, 100));
@@ -58,11 +50,18 @@ public abstract class DigitalClockView extends JPanel{
 		
 		JFrame dialFrame = new JFrame("3 Dial");
 		dialFrame.getContentPane().add(this);
+		
 		dialFrame.pack();
 		dialFrame.setSize(new Dimension(400, 300));
 		dialFrame.setLocationRelativeTo(null);
-
 		dialFrame.setVisible(true);
+		
 	} // end of method buildDigitalClock3DialsView
+	
+	public void updateTime(int second, int minute, int hour) {
+		
+		System.out.println("wrong update");
+		
+	} // end of method updateTime
 
 } // end of class DigitalClockView

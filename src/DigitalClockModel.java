@@ -1,64 +1,58 @@
 package src;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 /**
  * Digital timer model
  */
 
 class DigitalClockModel implements Runnable {
-	
-	// data members
-	private int _second;
-	private int _minute;
-	private int _hour;
-	private int _dayOfWeek;
-	private int _day;
-	private int _month;
-	private int _year;
-    private Thread _thread;
-    private List<DigitalClockView> observers = new ArrayList<DigitalClockView>();
+
+	private int second;
+	private int minute;
+	private int hour;
+	private int dayOfWeek;
+	private int day;
+	private int month;
+	private int year;
+    private Thread thread;
+    //private List<DigitalClockView> observers = new ArrayList<DigitalClockView>();
+    private DigitalClockController controller;
     
-    public String _daysOfWeek[] = {
+    public String daysOfWeek[] = {
     		" ", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
     };
-    public String _months[] = {
+    public String months[] = {
     		" ", "January", "February", "March", "April", "May", "June", "July", "August", 
     		"September", "October", "November", "December"
     };
-    //public String years[] = new String[40];
     
 	public DigitalClockModel() {
 
 		Calendar local = Calendar.getInstance();
 		
-		_second = local.get(Calendar.SECOND);
-		_minute = local.get(Calendar.MINUTE);
-		_hour = local.get(Calendar.HOUR);
-		_dayOfWeek = local.get(Calendar.DAY_OF_WEEK);
-		_day = local.get(Calendar.DAY_OF_MONTH);
-		_month = local.get(Calendar.MONTH);
-		_year = local.get(Calendar.YEAR);
-		
-		//addObserver(view);
-		//generateYears();
+		second = local.get(Calendar.SECOND);
+		minute = local.get(Calendar.MINUTE);
+		hour = local.get(Calendar.HOUR);
+		dayOfWeek = local.get(Calendar.DAY_OF_WEEK);
+		day = local.get(Calendar.DAY_OF_MONTH);
+		month = local.get(Calendar.MONTH);
+		year = local.get(Calendar.YEAR);
 		
 	} // end of constructor
 	
 	public void start() {
 		
-        _thread = new Thread(this);
-        _thread.setPriority(Thread.MIN_PRIORITY);
-        _thread.start();
+        thread = new Thread(this);
+        thread.setPriority(Thread.MIN_PRIORITY);
+        thread.start();
         
     } // end of method start
 
 
     public synchronized void stop() {
     	
-        _thread = null;
+        thread = null;
         
     } // end of method stop
 
@@ -66,7 +60,7 @@ class DigitalClockModel implements Runnable {
     public void run() {
     	
         Thread me = Thread.currentThread();
-        while (_thread == me) {
+        while (thread == me) {
         	
         	/*// DD: **Note what is happening here: the model is directly telling
         	// the view to redraw every second. This is *wrong* -- every second,
@@ -75,8 +69,8 @@ class DigitalClockModel implements Runnable {
         	// controller will then tell all views to update itself accordingly.  
             _dtView.draw();*/
         	
-        	notifyObservers();
         	incrementSecond();
+        	notifyController();
             
             try {
             	
@@ -86,45 +80,53 @@ class DigitalClockModel implements Runnable {
             
         }
         
-        _thread = null;
+        thread = null;
         
     } // end of method run
     
-    public void notifyObservers() {
+    public void notifyController() {
     	
-    	for (DigitalClockView view : observers) {
-    		
-    		view.draw();
-    		
-    	} // end of for
+    	controller.notifyObservers();
     	
-    } // end of method notifyObservers
+    } // end of method notifyController
+    
+//    public void notifyObservers() {
+//    	
+//    	for (DigitalClockView view : observers) {
+//    		
+//    		view.draw();
+//    		
+//    	} // end of for
+//    	
+//    } // end of method notifyObservers
+    
     
     public void incrementSecond() {
     	
-        if (_second >= 59) {
+        if (second >= 59) {
         	
-            _second = 0;
+            second = 0;
             incrementMin();
             
         } else {
         	
-            _second++;
+            second++;
             
         } // end of if-else
         
     } // end of method incrementSecond
     
+    
     public void decrementSecond() {
     	
-    	if (_second <= 0) {
+    	if (second <= 0) {
     		
-    		_second = 59;
+    		second = 59;
     		decrementMin();
     		
     	} else {
     		
-    		_second--;
+    		second--;
     		
     	} // end of if-else
     	
@@ -132,14 +134,14 @@ class DigitalClockModel implements Runnable {
     
     public void incrementMin() {
     	
-        if (_minute >= 59) {
+        if (minute >= 59) {
         	
-            _minute = 0;
+            minute = 0;
             incrementHour();
             
         } else {
         	
-            _minute++;
+            minute++;
             
         } // end of if-else
         
@@ -147,14 +149,14 @@ class DigitalClockModel implements Runnable {
     
     public void decrementMin() {
     	
-    	if (_minute <= 0) {
+    	if (minute <= 0) {
     		
-    		_minute = 59;
+    		minute = 59;
     		decrementHour();
     		
     	} else {
     		
-    		_minute--;
+    		minute--;
     		
     	} // end of if-else
     	
@@ -162,14 +164,14 @@ class DigitalClockModel implements Runnable {
     
     public void incrementHour() {
     	
-        if (_hour >= 23) {
+        if (hour >= 23) {
         	
-            _hour = 0;
+            hour = 0;
             incrementDay();
             
         } else {
         	
-            _hour++;
+            hour++;
             
         } // end of if-else
         
@@ -177,14 +179,14 @@ class DigitalClockModel implements Runnable {
     
     public void decrementHour(){
     	
-    	if (_hour <= 0) {
+    	if (hour <= 0) {
     		
-    		_hour = 23;
+    		hour = 23;
     		decrementDay();
     		
     	} else {
     		
-    		_hour--;
+    		hour--;
     		
     	} // end of if-else
     	
@@ -192,25 +194,25 @@ class DigitalClockModel implements Runnable {
     
     public void incrementDay() {
     	
-        if (_day >= 28 && _month == 2) {
+        if (day >= 28 && month == 2) {
         	
-            _day = 1;
+            day = 1;
             incrementMonth();
             
-        } else if ((_day >= 30) && ((_month == 4) || (_month == 6) || 
-                (_month == 9) || (_month == 11))) {
+        } else if ((day >= 30) && ((month == 4) || (month == 6) || 
+                (month == 9) || (month == 11))) {
         	
-            _day = 1;
+            day = 1;
             incrementMonth();
             
-        } else if (_day >= 31){
+        } else if (day >= 31){
         	
-            _day = 1;
+            day = 1;
             incrementMonth();
             
         } else {
         	
-            _day++;
+            day++;
             
         } // end of if-else if-else
         
@@ -220,29 +222,29 @@ class DigitalClockModel implements Runnable {
     
     public void decrementDay() {
     	
-        if (_day == 1) {
+        if (day == 1) {
         	
-            if (_month == 2) {
+            if (month == 2) {
             	
-                _day = 28;
+                day = 28;
                 decrementMonth();
                 
-            } else if ((_month == 4) || (_month == 6) || (_month == 9) ||
-                    (_month == 11)) {
+            } else if ((month == 4) || (month == 6) || (month == 9) ||
+                    (month == 11)) {
             	
-                _day = 30;
+                day = 30;
                 decrementMonth();
                 
             } else {
             	
-                _day = 31;
+                day = 31;
                 decrementMonth();
                 
             } // end of if-else if-else
             
         } else {
         	
-            _day--;
+            day--;
             
         } // end of if-else
         
@@ -252,14 +254,14 @@ class DigitalClockModel implements Runnable {
     
     public void decrementMonth() {
     	
-        if (_month == 1) {
+        if (month == 1) {
         	
-            _month = 12;
+            month = 12;
             decrementYear();
             
         } else {
         	
-            _month--;
+            month--;
             
         } // end of if-else
         
@@ -267,19 +269,19 @@ class DigitalClockModel implements Runnable {
     
     public void decrementYear() {
     	
-        _year--;
+        year--;
         
     } // end of method decrementYear
     
     public void incrementDayOfWeek() {
     	
-        if (_dayOfWeek >= 7) {
+        if (dayOfWeek >= 7) {
         	
-            _dayOfWeek = 1;
+            dayOfWeek = 1;
             
         } else {
         	
-            _dayOfWeek++;
+            dayOfWeek++;
             
         } // end of if-else
         
@@ -287,13 +289,13 @@ class DigitalClockModel implements Runnable {
     
     public void decrementDayOfWeek() {
     	
-        if (_dayOfWeek == 1) {
+        if (dayOfWeek == 1) {
         	
-            _dayOfWeek = 7;
+            dayOfWeek = 7;
             
         } else {
         	
-            _dayOfWeek--;
+            dayOfWeek--;
             
         } // end of if-else
         
@@ -301,14 +303,14 @@ class DigitalClockModel implements Runnable {
     
     public void incrementMonth() {
     	
-        if (_month >= 12) {
+        if (month >= 12) {
         	
-            _month = 1;
+            month = 1;
             incrementYear();
             
         } else {
         	
-            _month++;
+            month++;
             
         } // end of if-else
         
@@ -316,13 +318,13 @@ class DigitalClockModel implements Runnable {
     
     public void incrementYear() {
     	
-        _year++;
+        year++;
         
     } // end of method incrementYear
     
     public String dateToString() {
     	
-        String date  = _daysOfWeek[_dayOfWeek] + ", " + _months[_month+1] + " " + _day + ", " + _year;
+        String date  = daysOfWeek[dayOfWeek] + ", " + months[month+1] + " " + day + ", " + year;
    
         return date;
         
@@ -330,150 +332,120 @@ class DigitalClockModel implements Runnable {
     
     public String timeToString() {
     	
-        String time  = _hour + " : " + _minute + " : " + _second;
+        String time  = hour + " : " + minute + " : " + second;
    
         return time;
         
     } // end of method timeToString
 
-    //add views
-    public void addObserver(DigitalClockView observer) {
-    	
-        observers.add(observer);
-        observer.addObservable(this);
-        
-    } // end of method addObserver
+//    //add views
+//    public void addObserver(DigitalClockView observer) {
+//    	
+//        observers.add(observer);
+//        observer.addObservable(this);
+//        
+//    } // end of method addObserver
+//    
+//	public DigitalClockView getObserver(int i) {
+//		
+//	    return observers.get(i);
+//	    
+//	} // end of method getObserver
     
-	public DigitalClockView getObserver(int i) {
-		
-	    return observers.get(i);
-	    
-	} // end of method getObserver
+    public void setController(DigitalClockController controller) {
+    	
+    	this.controller = controller;
+    	
+    } // end of method addController
+    
+    public DigitalClockController getController() {
+    	
+    	return controller;
+    	
+    } // end of method getController
     
     public int getSecond() {
     	
-        return _second;
+        return second;
         
     } // end of method getSecond
     
     public void setSecond(int second) {
     	
-    	_second = second;
+    	this.second = second;
     	
     } // end of method setSecond
     
     public int getMinute() {
     	
-        return _minute;
+        return minute;
         
     } // end of method getMinute
     
     public void setMinute(int minute) {
     	
-    	_minute = minute;
+    	this.minute = minute;
     	
     } // end of method setMinute
     
     public int getHour() {
     	
-        return _hour;
+        return hour;
         
     } // end of method getHour
     
     public void setHour(int hour) {
     	
-    	_hour = hour;
+    	this.hour = hour;
     	
     } // end of method setHour
     
     public int getDay() {
     	
-        return _day;
+        return day;
         
     } // end of method getDay
     
     public void setDay(int day) {
     	
-    	_day = day;
+    	this.day = day;
     	
     } // end of method setDay
     
     public int getDayOfWeek() {
     	
-    	return _dayOfWeek;
+    	return dayOfWeek;
     	
     } // end of method getDayOfWeek
     
     public void setDayOfWeek(int dayOfWeek) {
     	
-    	_dayOfWeek = dayOfWeek;
+    	this.dayOfWeek = dayOfWeek;
     	
     } // end of method setDayOfWeek
     
     public int getMonth() {
     	
-        return _month;
+        return month;
         
     } // end of method getMonth
     
     public void setMonth(int month) {
     	
-    	_month = month;
+    	this.month = month;
     	
     } // end of method setMonth
     
     public int getYear() {
     	
-        return _year;
+        return year;
         
     } // end of method getYear
     
     public void setYear(int year) {
     	
-    	_year = year;
+    	this.year = year;
     	
     } // end of method setYear
-    
-//	private void generateYears() {
-//		
-//	    int count = 0;
-//	    
-//	    for (int i = 2011; i <= 2050; i++) {
-//	    	
-//	        years[count] = Integer.toString(i);
-//	        count++;
-//	        
-//	    } // end of for
-//	    
-//	} // end of method generateYears
-//	
-//	//for combo boxes
-//	public String[] generateDaysOfWeek() {
-//		
-//	    String[] s = new String[7];
-//	    
-//	    for (int i = 0; i < 7; i++) {
-//	    	
-//	        s[i] = _daysOfWeek[i + 1];
-//	        
-//	    } // end of for
-//	    
-//	    return s;
-//	    
-//	} // end of method generateDaysOfWeek
-//	
-//	public String[] generateMonths() {
-//		
-//	    String[] s = new String[12];
-//	    
-//	    for (int i = 0; i < 12; i++) {
-//	    	
-//	        s[i] = _months[i + 1];
-//	        
-//	    } // end of for
-//	    
-//	    return s;
-//	    
-//	} // end of method generateMonths
 	
 } // end of class DigitalClockModel

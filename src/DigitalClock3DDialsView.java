@@ -64,11 +64,11 @@ class DigitalClock3DialsView extends DigitalClockView {
         	
             lines[i] = new Line2D.Float(0,0,size,0);
             strokes[i] = new BasicStroke(size/3, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER);
-            rAmt[i] = 270;		// vertical
+            rAmt[i] = 270;		
             
         } // end of for
         
-        speed[0] = 0;	// make second to move forward, but not the other // changed 6 to 0
+        speed[0] = 0;	
         speed[1] = 0;
         speed[2] = 0;
 
@@ -97,6 +97,7 @@ class DigitalClock3DialsView extends DigitalClockView {
             } // end of switch
             
             pi.next();
+            
         } // end of while
         
         pts = new Point2D[num_pts];
@@ -116,7 +117,7 @@ class DigitalClock3DialsView extends DigitalClockView {
 		g2.dispose();
 		g.drawImage(bimg, 0, 0, this);*/
 		
-		step();
+		//step();
 		
 		Graphics2D g2 = createGraphics2D(d.width, d.height);
 		drawClockArms(d.width, d.height, g2);
@@ -178,8 +179,15 @@ class DigitalClock3DialsView extends DigitalClockView {
 	/**
 	 * step forward on the display: move arm forward
 	 */
-	
-	// POSSIBLY change
+
+	public void updateTime(int second, int minute, int hour) {
+		
+		rAmt[0] = second * 6 - 90;
+		rAmt[1] = minute * 6 - 90;
+		rAmt[2] = hour * 30 - 90;
+
+	} // end of method updateTime
+	/*
     public void step() {
     	
     	rAmt[0] = model.getSecond() * 6 - 90;
@@ -187,5 +195,5 @@ class DigitalClock3DialsView extends DigitalClockView {
         rAmt[2] = model.getHour() * 30 - 90;
         
     } // end of method step
-	
+	*/
 } // end of class DigitalClock3DDialsView

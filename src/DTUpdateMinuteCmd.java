@@ -16,14 +16,12 @@ public class DTUpdateMinuteCmd implements DigitalClockCmd {
 		
 		this.prevMin = model.getMinute();
 		model.setMinute(this.curMin);
-		//model.incrementMin();
 
 	} // end of method Execute
 
 	public void UnExecute() {
 		
 		model.setMinute(this.prevMin);
-		//model.decrementMin();
 
 	} // end of method UnExecute
 
