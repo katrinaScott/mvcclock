@@ -52,14 +52,14 @@ class DigitalClockSettingsUI extends JFrame {
 		dialButton.addActionListener(new ButtonListener());
 		dialButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		dialButton.setBackground(Color.GRAY);
-		dialButton.setForeground(Color.WHITE);
+		dialButton.setForeground(Color.DARK_GRAY);
 		controllerPanel.add(dialButton);
 		
 		digitalButton = new JButton("ADD DIGITAL VIEW");
 		digitalButton.addActionListener(new ButtonListener());
 		digitalButton.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		digitalButton.setBackground(Color.GRAY);
-		digitalButton.setForeground(Color.WHITE);
+		digitalButton.setForeground(Color.DARK_GRAY);
 		controllerPanel.add(digitalButton);
 		
 		JLabel secondsLabel = new JLabel("Change Seconds");
@@ -145,14 +145,14 @@ class DigitalClockSettingsUI extends JFrame {
 		undo = new JButton("Undo Command");
 		undo.addActionListener(new ButtonListener());
 		undo.setBackground(Color.GRAY);
-		undo.setForeground(Color.WHITE);
+		undo.setForeground(Color.DARK_GRAY);
 		undo.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(undo);
 		
 		redo = new JButton("Redo Command");
 		redo.addActionListener(new ButtonListener());
 		redo.setBackground(Color.GRAY);
-		redo.setForeground(Color.WHITE);
+		redo.setForeground(Color.DARK_GRAY);
 		redo.setFont(new Font("DejaVu Sans", Font.PLAIN, 15));
 		controllerPanel.add(redo);
 		

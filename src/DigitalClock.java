@@ -28,7 +28,7 @@ public class DigitalClock extends JFrame {
 		JFrame controllerFrame = new DigitalClockSettingsUI(model, controller);
 		controllerFrame.addWindowListener(windowAdapter);
 		controllerFrame.setSize(new Dimension(400, 450));
-		controllerFrame.setLocation(new Point(600, 100));
+		controllerFrame.setLocation(new Point(625, 100));
 		controllerFrame.setVisible(true);
 		
 	} // end of method buildControllerView
